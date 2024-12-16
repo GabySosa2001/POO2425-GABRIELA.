@@ -1,0 +1,43 @@
+class Dia:
+    def _init_(self, temperatura):
+        self.temperatura = temperatura
+
+    def get_temperatura(self):
+        return self.temperatura
+
+    def set_temperatura(self, temperatura):
+        self.temperatura = temperatura
+
+class Semana:
+    def _init_(self):
+        self.dias = []
+
+    def agregar_dia(self, dia):
+        self.dias.append(dia)
+
+    def calcular_promedio(self):
+        return sum(dia.get_temperatura() for dia in self.dias) / len(self.dias)
+
+class Ciudad:
+    def _init_(self, nombre):
+        self.nombre = nombre
+        self.semanas = []
+
+    def agregar_semana(self, semana):
+        self.semanas.append(semana)
+
+    def calcular_promedio_anual(self):
+        todas_temperaturas = [dia.get_temperatura() for semana in self.semanas for dia in semana.dias]
+        return sum(todas_temperaturas) / len(todas_temperaturas)
+
+# Ejemplo de uso:
+ciudad_a = Ciudad("Ciudad A")
+semana1_a = Semana()
+for temp in [20, 22, 21, 23]:
+    semana1_a.agregar_dia(Dia(temp))
+ciudad_a.agregar_semana(semana1_a)
+# ... Agregar más semanas y ciudades
+
+# Calcular promedio anual de la Ciudad A
+promedio_anual_a = ciudad_a.calcular_promedio_anual()
+print(f"El promedio anual de {ciudad_a.nombre} es: {promedio_anual_a}")
