@@ -1,0 +1,71 @@
+# Este programa convierte entre diferentes unidades de medida, como metros a kilómetros, 
+# grados Celsius a Fahrenheit y libras a kilogramos.
+
+def convertir_metros_a_kilometros(metros):
+    """
+    Convierte metros a kilómetros.
+    
+    :param metros: valor en metros
+    :return: valor en kilómetros
+    """
+    return metros / 1000
+
+def convertir_celsius_a_fahrenheit(celsius):
+    """
+    Convierte grados Celsius a Fahrenheit.
+    
+    :param celsius: temperatura en grados Celsius
+    :return: temperatura en grados Fahrenheit
+    """
+    return (celsius * 9/5) + 32
+
+def convertir_libras_a_kilogramos(libras):
+    """
+    Convierte libras a kilogramos.
+    
+    :param libras: peso en libras
+    :return: peso en kilogramos
+    """
+    return libras * 0.453592
+
+def mostrar_menu():
+    """
+    Muestra el menú de opciones para el usuario.
+    """
+    print("Seleccione la conversión que desea realizar:")
+    print("1. Metros a Kilómetros")
+    print("2. Celsius a Fahrenheit")
+    print("3. Libras a Kilogramos")
+    print("4. Salir")
+
+def main():
+    """
+    Función principal que ejecuta el programa de conversión de unidades.
+    """
+    continuar = True
+    while continuar:
+        # Mostrar el menú
+        mostrar_menu()
+        
+        # Obtener la opción del usuario
+        opcion = input("Ingrese el número de la opción: ")
+
+        # Validar la opción
+        if opcion == '1':
+            metros = float(input("Ingrese el valor en metros: "))
+            print(f"{metros} metros equivalen a {convertir_metros_a_kilometros(metros)} kilómetros.\n")
+        elif opcion == '2':
+            celsius = float(input("Ingrese la temperatura en Celsius: "))
+            print(f"{celsius} grados Celsius equivalen a {convertir_celsius_a_fahrenheit(celsius)} grados Fahrenheit.\n")
+        elif opcion == '3':
+            libras = float(input("Ingrese el peso en libras: "))
+            print(f"{libras} libras equivalen a {convertir_libras_a_kilogramos(libras)} kilogramos.\n")
+        elif opcion == '4':
+            continuar = False
+            print("¡Gracias por usar el conversor de unidades!")
+        else:
+            print("Opción inválida, por favor intente nuevamente.\n")
+
+# Llamamos a la función principal para iniciar el programa
+if __name__ == "__main__":
+    main()
