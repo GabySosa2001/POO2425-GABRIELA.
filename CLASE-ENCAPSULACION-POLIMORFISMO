@@ -1,0 +1,59 @@
+ Comentarios para explicar el código
+
+# Esta es una clase base que representa un animal
+class Animal:
+    # Constructor que inicializa el nombre y la especie
+    def __init__(self, nombre, especie):
+        self.nombre = nombre
+        self.especie = especie
+    
+    # Método para hacer un sonido
+    def hacer_sonido(self):
+        print("El animal hace un sonido.")
+
+# Esta es una clase derivada que representa un perro, que hereda de Animal
+class Perro(Animal):
+    # Constructor que inicializa el nombre y la raza del perro
+    def __init__(self, nombre, raza):
+        super().__init__(nombre, "Perro")
+        self.raza = raza
+    
+    # Método sobrescrito para hacer un sonido específico de perro
+    def hacer_sonido(self):
+        print(f"{self.nombre} dice: ¡Guau!")
+
+# Esta clase demuestra el uso de la encapsulación
+class CuentaBancaria:
+    def __init__(self, saldo):
+        self.__saldo = saldo  # Atributo privado
+
+    def mostrar_saldo(self):
+        print(f"Saldo: ${self.__saldo}")
+
+    def depositar(self, monto):
+        if monto > 0:
+            self.__saldo += monto
+
+    def retirar(self, monto):
+        if 0 < monto <= self.__saldo:
+            self.__saldo -= monto
+
+# Función polimórfica que puede aceptar objetos de diferentes tipos
+def hacer_sonido(animal):
+    animal.hacer_sonido()
+
+# Crear instancias y usar las clases
+animal = Animal("Genérico", "Desconocido")
+perro = Perro("Fido", "Labrador")
+cuenta_bancaria = CuentaBancaria(2000)
+
+# Mostrar sonidos de los animales
+hacer_sonido(animal)
+hacer_sonido(perro)
+
+# Uso de la clase CuentaBancaria para demostrar encapsulación
+cuenta_bancaria.mostrar_saldo()
+cuenta_bancaria.depositar(800)
+cuenta_bancaria.mostrar_saldo()
+cuenta_bancaria.retirar(1200)
+cuenta_bancaria.mostrar_saldo()
