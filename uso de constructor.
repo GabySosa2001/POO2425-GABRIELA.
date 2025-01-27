@@ -1,0 +1,28 @@
+class Archivo:
+    def _init_(self, nombre):
+        # El constructor (_init_) se llama cuando se crea una instancia de la clase
+        # Inicializamos el atributo 'nombre' del archivo y abrimos el archivo para escritura
+        self.nombre = nombre
+        self.archivo = open(nombre, 'w')
+        print(f"Archivo '{self.nombre}' abierto para escritura.")
+
+    def escribir(self, contenido):
+        # Método para escribir contenido en el archivo
+        self.archivo.write(contenido)
+        print(f"Contenido escrito en el archivo '{self.nombre}'.")
+
+    def _del_(self):
+        # El destructor (_del_) se llama cuando la instancia de la clase se destruye
+        # Cerramos el archivo para asegurarnos de que se guarde todo el contenido
+        self.archivo.close()
+        print(f"Archivo '{self.nombre}' cerrado.")
+
+# Crear una instancia de la clase Archivo
+archivo1 = Archivo("mi_archivo.txt")
+
+# Escribir contenido en el archivo
+archivo1.escribir("Hola, mundo!\n")
+
+# El archivo se cierra automáticamente cuando el objeto 'archivo1' sale del alcance
+# o se elimina explícitamente con 'del archivo1'
+del archivo1
