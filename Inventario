@@ -1,0 +1,127 @@
+import json
+
+class Producto:
+    def __init__(self, id_unico, nombre, cantidad, precio):
+        self.id_unico = id_unico
+        self.nombre = nombre
+        self.cantidad = cantidad
+        self.precio = precio
+
+    def obtener_id(self):
+        return self.id_unico
+
+    def obtener_nombre(self):
+        return self.nombre
+
+    def obtener_cantidad(self):
+        return self.cantidad
+
+    def establecer_cantidad(self, cantidad):
+        self.cantidad = cantidad
+
+    def obtener_precio(self):
+        return self.precio
+
+    def establecer_precio(self, precio):
+        self.precio = precio
+
+    def __str__(self):
+        return f'ID: {self.id_unico}, Nombre: {self.nombre}, Cantidad: {self.cantidad}, Precio: {self.precio}'
+
+class Inventario:
+    def __init__(self):
+        self.productos = {}
+
+    def añadir_producto(self, producto):
+        self.productos[producto.obtener_id()] = producto
+
+    def eliminar_producto(self, id_unico):
+        if id_unico in self.productos:
+            del self.productos[id_unico]
+
+    def actualizar_cantidad_precio(self, id_unico, cantidad=None, precio=None):
+        if id_unico in self.productos:
+            if cantidad is not None:
+                self.productos[id_unico].establecer_cantidad(cantidad)
+            if precio is not None:
+                self.productos[id_unico].establecer_precio(precio)
+
+    def buscar_producto_por_nombre(self, nombre):
+        for producto in self.productos.values():
+            if producto.obtener_nombre().lower() == nombre.lower():
+                return producto
+        return None
+
+    def mostrar_todos_los_productos(self):
+        for producto in self.productos.values():
+            print(producto)
+
+    def guardar_inventario(self, archivo):
+        with open(archivo, 'w') as f:
+            productos_dict = {id_unico: vars(producto) for id_unico, producto in self.productos.items()}
+            json.dump(productos_dict, f)
+
+    def cargar_inventario(self, archivo):
+        with open(archivo, 'r') as f:
+            productos_dict = json.load(f)
+            self.productos = {id_unico: Producto(**datos) for id_unico, datos en productos_dict.items()}
+
+def menu():
+    inventario = Inventario()
+    while True:
+        print("\nMenú de Gestión de Inventario")
+        print("1. Añadir Producto")
+        print("2. Eliminar Producto")
+        print("3. Actualizar Cantidad o Precio de Producto")
+        print("4. Buscar Producto por Nombre")
+        print("5. Mostrar Todos los Productos")
+        print("6. Guardar Inventario en Archivo")
+        print("7. Cargar Inventario desde Archivo")
+        print("8. Salir")
+
+        opcion = input("Seleccione una opción: ")
+
+        if opcion == '1':
+            id_unico = input("Ingrese ID del producto: ")
+            nombre = input("Ingrese nombre del producto: ")
+            cantidad = int(input("Ingrese cantidad del producto: "))
+            precio = float(input("Ingrese precio del producto: "))
+            producto = Producto(id_unico, nombre, cantidad, precio)
+            inventario.añadir_producto(producto)
+            print("Producto añadido con éxito.")
+        elif opcion == '2':
+            id_unico = input("Ingrese ID del producto a eliminar: ")
+            inventario.eliminar_producto(id_unico)
+            print("Producto eliminado con éxito.")
+        elif opcion == '3':
+            id_unico = input("Ingrese ID del producto a actualizar: ")
+            cantidad = input("Ingrese nueva cantidad (dejar en blanco para no cambiar): ")
+            precio = input("Ingrese nuevo precio (dejar en blanco para no cambiar): ")
+            cantidad = int(cantidad) if cantidad else None
+            precio = float(precio) if precio else None
+            inventario.actualizar_cantidad_precio(id_unico, cantidad, precio)
+            print("Producto actualizado con éxito.")
+        elif opcion == '4':
+            nombre = input("Ingrese nombre del producto a buscar: ")
+            producto = inventario.buscar_producto_por_nombre(nombre)
+            if producto:
+                print(producto)
+            else:
+                print("Producto no encontrado.")
+        elif opcion == '5':
+            inventario.mostrar_todos_los_productos()
+        elif opcion == '6':
+            archivo = input("Ingrese nombre del archivo para guardar el inventario: ")
+            inventario.guardar_inventario(archivo)
+            print("Inventario guardado con éxito.")
+        elif opcion == '7':
+            archivo = input("Ingrese nombre del archivo para cargar el inventario: ")
+            inventario.cargar_inventario(archivo)
+            print("Inventario cargado con éxito.")
+        elif opcion == '8':
+            break
+        else:
+            print("Opción no válida, por favor intente nuevamente.")
+
+if __name__ == "__main__":
+    menu()
